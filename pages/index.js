@@ -16,7 +16,6 @@ export default function Home() {
       </Head>
       <main className="">
       <div className='flex justify-center items-center'>
-      <LoginButton />
       </div>
       </main>
     </>
