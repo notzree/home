@@ -6,81 +6,81 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
-  id   String  @id @default(uuid())
-  email String  @unique
-  username String @unique
-  location String? 
-  buyingConversations Conversation[] @relation("buyingConvos")
-  sellingConversations Conversation[] @relation("sellingConvos")
+  id                   String          @id @default(uuid())
+  email                String          @unique
+  username             String          @unique
+  location             String?
+  buyingConversations  Conversation[]  @relation("buyingConvos")
+  sellingConversations Conversation[]  @relation("sellingConvos")
   //Try to not include sentMessages, leaving it here for now just in case we need to make it a relation
   // sentMessages Messages[] @relation("sentMessages")
-  listings Listings[] 
-  purchasedListings ActionListing[] @relation("listingsBought")
-  soldListings ActionListing[] @relation("listingsSold")
+  listings             Listings[]
+  purchasedListings    ActionListing[] @relation("listingsBought")
+  soldListings         ActionListing[] @relation("listingsSold")
   // offers Offers[]
-  // favourites Favourites[]
+  favourites Favourites[] 
 }
+
 //sender is the foreign key 
 model Conversation {
-id   String  @id @default(uuid())
-buyerId User @relation("buyingConvos",fields: [buyer],references: [id])
-buyer String
-sellerId User @relation("sellingConvos",fields: [seller],references: [id])
-seller String
-messages Messages[]
-createdAt DateTime @default(now())
+  id        String     @id @default(uuid())
+  buyerId   User       @relation("buyingConvos", fields: [buyer], references: [id])
+  buyer     String
+  sellerId  User       @relation("sellingConvos", fields: [seller], references: [id])
+  seller    String
+  messages  Messages[]
+  createdAt DateTime   @default(now())
 }
 
-model Messages{
-id   String  @id @default(uuid())
-// senderId User @relation("sentMessages", fields: [sender],references: [id])
-// sender String
-senderId String
-conversation String
-conversationId Conversation @relation(fields: [conversation],references: [id])
+model Messages {
+  id             String       @id @default(uuid())
+  // senderId User @relation("sentMessages", fields: [sender],references: [id])
+  // sender String
+  senderId       String
+  conversation   String
+  conversationId Conversation @relation(fields: [conversation], references: [id])
 }
 
-model Listings{
-id   String  @id @default(uuid())
-ownerId User @relation(fields: [owner],references: [id])
-owner String
+model Listings {
+  id      String @id @default(uuid())
+  ownerId User   @relation(fields: [owner], references: [id])
+  owner   String
+  actionListing ActionListing @relation(fields: [actionListingId], references: [id])
+  actionListingId String @unique
+  
 }
 
-model ActionListing{
-id   String  @id @default(uuid())
+model ActionListing {
+  id String @id @default(uuid())
 
-buyerId User @relation("listingsBought", fields: [buyer], references: [id])
-buyer String
+  buyerId User   @relation("listingsBought", fields: [buyer], references: [id])
+  buyer   String
 
-sellerId User @relation("listingsSold",fields: [seller], references: [id])
-seller String
+  sellerId User   @relation("listingsSold", fields: [seller], references: [id])
+  seller   String
 
-// listingId Listings @relation(fields: [listing],references: [id])
-// listing String
+  listingId Listings?
 
-price Int
+  price     Int
+  createdAt DateTime @default(now())
+}
 
-createdAt DateTime @default(now())
+model Offers {
+  id String @id @default(uuid())
 
 }
- 
 
+model Favourites {
+  id String @id @default(uuid())
+  userId User @relation(fields: [user],references: [id])
+  user String
+  listingId String
 
-// model Offers{
-// id   String  @id @default(uuid())
-// }
-
-// model Favourites{
-// userId String
-// listingId String
-
-
-// @@id([userId,listingId])
-// }
-
+  
+}
