@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id   String  @id @default(uuid())
+  email String  @unique
+  username String @unique
+  location String? 
+  buyingConversations Conversation[] @relation("buyingConvos")
+  sellingConversations Conversation[] @relation("sellingConvos")
+  //Try to not include sentMessages, leaving it here for now just in case we need to make it a relation
+  // sentMessages Messages[] @relation("sentMessages")
+  listings Listings[] 
+  purchasedListings ActionListing[] @relation("listingsBought")
+  soldListings ActionListing[] @relation("listingsSold")
+  // offers Offers[]
+  // favourites Favourites[]
+}
+//sender is the foreign key 
+model Conversation {
+id   String  @id @default(uuid())
+buyerId User @relation("buyingConvos",fields: [buyer],references: [id])
+buyer String
+sellerId User @relation("sellingConvos",fields: [seller],references: [id])
+seller String
+messages Messages[]
+createdAt DateTime @default(now())
+}
+
+model Messages{
+id   String  @id @default(uuid())
+// senderId User @relation("sentMessages", fields: [sender],references: [id])
+// sender String
+senderId String
+conversation String
+conversationId Conversation @relation(fields: [conversation],references: [id])
+}
+
+model Listings{
+id   String  @id @default(uuid())
+ownerId User @relation(fields: [owner],references: [id])
+owner String
+}
+
+model ActionListing{
+id   String  @id @default(uuid())
+
+buyerId User @relation("listingsBought", fields: [buyer], references: [id])
+buyer String
+
+sellerId User @relation("listingsSold",fields: [seller], references: [id])
+seller String
+
+// listingId Listings @relation(fields: [listing],references: [id])
+// listing String
+
+price Int
+
+createdAt DateTime @default(now())
+
+}
+ 
+
+
+// model Offers{
+// id   String  @id @default(uuid())
+// }
+
+// model Favourites{
+// userId String
+// listingId String
+
+
+// @@id([userId,listingId])
+// }
+
