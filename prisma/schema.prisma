@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,15 +14,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -39,24 +35,20 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-
+  id                   String          @id @default(cuid())
+  email                String?         @unique
   location             String?
-  buyingConversations  Conversation[]  @relation("buyingConvos")
-  sellingConversations Conversation[]  @relation("sellingConvos")
-  //Try to not include sentMessages, leaving it here for now just in case we need to make it a relation
-  // sentMessages Messages[] @relation("sentMessages")
-  listings             Listings[]
+  emailVerified        DateTime?
+  image                String?
+  name                 String?
+  accounts             Account[]
   purchasedListings    ActionListing[] @relation("listingsBought")
   soldListings         ActionListing[] @relation("listingsSold")
-  // offers Offers[]
+  buyingConversations  Conversation[]  @relation("buyingConvos")
+  sellingConversations Conversation[]  @relation("sellingConvos")
   favourites           Favourites[]
+  listings             Listings[]
+  sessions             Session[]
 }
 
 model VerificationToken {
@@ -67,21 +59,18 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-//sender is the foreign key 
 model Conversation {
   id        String     @id @default(uuid())
-  buyerId   User       @relation("buyingConvos", fields: [buyer], references: [id])
   buyer     String
-  sellerId  User       @relation("sellingConvos", fields: [seller], references: [id])
   seller    String
-  messages  Messages[]
   createdAt DateTime   @default(now())
+  buyerId   User       @relation("buyingConvos", fields: [buyer], references: [id])
+  sellerId  User       @relation("sellingConvos", fields: [seller], references: [id])
+  messages  Messages[]
 }
 
 model Messages {
   id             String       @id @default(uuid())
-  // senderId User @relation("sentMessages", fields: [sender],references: [id])
-  // sender String
   senderId       String
   conversation   String
   conversationId Conversation @relation(fields: [conversation], references: [id])
@@ -89,25 +78,21 @@ model Messages {
 
 model Listings {
   id              String        @id @default(uuid())
-  ownerId         User          @relation(fields: [owner], references: [id])
   owner           String
-  actionListing   ActionListing @relation(fields: [actionListingId], references: [id])
   actionListingId String        @unique
+  actionListing   ActionListing @relation(fields: [actionListingId], references: [id])
+  ownerId         User          @relation(fields: [owner], references: [id])
 }
 
 model ActionListing {
-  id String @id @default(uuid())
-
-  buyerId User   @relation("listingsBought", fields: [buyer], references: [id])
-  buyer   String
-
-  sellerId User   @relation("listingsSold", fields: [seller], references: [id])
-  seller   String
-
-  listingId Listings?
-
+  id        String    @id @default(uuid())
+  buyer     String
+  seller    String
   price     Int
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  buyerId   User      @relation("listingsBought", fields: [buyer], references: [id])
+  sellerId  User      @relation("listingsSold", fields: [seller], references: [id])
+  listingId Listings?
 }
 
 model Offers {
@@ -116,7 +101,7 @@ model Offers {
 
 model Favourites {
   id        String @id @default(uuid())
-  userId    User   @relation(fields: [user], references: [id])
   user      String
   listingId String
+  userId    User   @relation(fields: [user], references: [id])
 }
