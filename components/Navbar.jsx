@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react"
-import LoginButton from "./login-btn"
+import LoginButton from "./LoginButton"
 export default function NavBar(){
 const { data: session } = useSession()
     return (

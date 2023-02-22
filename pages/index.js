@@ -5,7 +5,8 @@ import NavBar from "@/components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 import { useSession } from "next-auth/react";
 import logo2 from "/public/logo2.svg";
-
+import LoginButton from "@/components/LoginButton";
+import CreateListingButton from "@/components/CreateListingButton";
 export default function Home() {
 
   const { data: session } = useSession();
@@ -22,7 +23,9 @@ export default function Home() {
           <div className="m-2"><img className="scale-125 pb-16" src="/logo2.svg"></img></div>
         </div>
         <div className=" h-screen bg-red-500">
-NEXT PAGE
+        <div className=" w-screen h-full flex justify-center items-center">
+        <CreateListingButton/>
+        </div>
         </div>
       </main>
     </>

@@ -77,11 +77,18 @@ model Messages {
 }
 
 model Listings {
-  id              String        @id @default(uuid())
-  owner           String
-  actionListingId String        @unique
-  actionListing   ActionListing @relation(fields: [actionListingId], references: [id])
-  ownerId         User          @relation(fields: [owner], references: [id])
+  id                    String        @id @default(uuid())
+  owner                 String
+  actionListingId       String        @unique
+  actionListing         ActionListing @relation(fields: [actionListingId], references: [id])
+  ownerId               User          @relation(fields: [owner], references: [id])
+  listingName           String
+  listingPrice          Int
+  listingCategory       String
+  listingLocationCoords String
+  listingSex            String
+  listingAge            Int
+  listingDescription    String
 }
 
 model ActionListing {
