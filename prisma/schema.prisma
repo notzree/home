@@ -42,8 +42,8 @@ model User {
   image                String?
   name                 String?
   accounts             Account[]
-  purchasedListings    ActionListing[] @relation("listingsBought")
-  soldListings         ActionListing[] @relation("listingsSold")
+  // purchasedListings    ActionListing[] @relation("listingsBought")
+  // soldListings         ActionListing[] @relation("listingsSold")
   buyingConversations  Conversation[]  @relation("buyingConvos")
   sellingConversations Conversation[]  @relation("sellingConvos")
   favourites           Favourites[]
@@ -75,12 +75,12 @@ model Messages {
   conversation   String
   conversationId Conversation @relation(fields: [conversation], references: [id])
 }
-
+// will fix actionListing Later.
 model Listings {
   id                    String        @id @default(uuid())
   owner                 String
-  actionListingId       String        @unique
-  actionListing         ActionListing @relation(fields: [actionListingId], references: [id])
+  // actionListingId       String ?       @unique
+  // actionListing         ActionListing? @relation(fields: [actionListingId], references: [id])
   ownerId               User          @relation(fields: [owner], references: [id])
   listingName           String
   listingPrice          Int
@@ -91,16 +91,16 @@ model Listings {
   listingDescription    String
 }
 
-model ActionListing {
-  id        String    @id @default(uuid())
-  buyer     String
-  seller    String
-  price     Int
-  createdAt DateTime  @default(now())
-  buyerId   User      @relation("listingsBought", fields: [buyer], references: [id])
-  sellerId  User      @relation("listingsSold", fields: [seller], references: [id])
-  listingId Listings?
-}
+// model ActionListing {
+//   id        String    @id @default(uuid())
+//   buyer     String
+//   seller    String
+//   price     Int
+//   createdAt DateTime  @default(now())
+//   buyerId   User      @relation("listingsBought", fields: [buyer], references: [id])
+//   sellerId  User      @relation("listingsSold", fields: [seller], references: [id])
+//   listingId Listings?
+// }
 
 model Offers {
   id String @id @default(uuid())
