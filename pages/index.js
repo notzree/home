@@ -18,6 +18,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo.png"/>
       </Head>
+      <NavBar/>
       <main className="w-screen h-screen bg-primary">
         <div className="flex items-center justify-center w-screen h-screen bg-primary">
           <div className="m-2"><img className="scale-125 pb-16" src="/logo2.svg"></img></div>

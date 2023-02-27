@@ -26,6 +26,9 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
+  pages: {
+    signIn: "/signin",
+  },
   secret:process.env.JWT_SECRET
 }
 

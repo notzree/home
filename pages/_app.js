@@ -10,7 +10,6 @@ export default function App({
     <>
     <SessionProvider session={session}>
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'></link>
-    <NavBar/>
     <Component {...pageProps} />
     </SessionProvider>
     

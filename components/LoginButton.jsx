@@ -10,33 +10,26 @@ export default function LoginButton() {
     return (
       <>
         <div className="dropdown-end dropdown">
-          <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
-            <div className="w-10 rounded-full">
+          <label tabIndex={0} className="mx-8 btn-ghost btn-circle avatar btn">
+            <div className="rounded-full">
               <img
                 alt="Profile Photo"
                 src={
                   session
                     ? session.user.image
-                    : <CgProfile />
+                    : <CgProfile/>
                 }
               />
             </div>
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
-          >
-            <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
+            className="dropdown-content menu rounded-box menu-compact mt-3 mx-7 w-52 bg-secondary p-2 shadow">
+            <li className="mx-2">
+              <a className="justify-between">Profile</a>
             </li>
             <li>
-              <a className="justify-between">{session.user.name}</a>
-            </li>
-            <li>
-              <button onClick={() => signOut()} className="btn-primary btn">
+              <button onClick={() => signOut()} className="btn btn-primary text-secondary m-2">
                 Sign out
               </button>
             </li>
