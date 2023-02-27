@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession, signIn, signOut } from "next-auth/react";
+import { CgProfile } from 'react-icons/cg';
+import { IconContext } from "react-icons";
 
 export default function LoginButton() {
   const { data: session } = useSession();
@@ -11,11 +13,11 @@ export default function LoginButton() {
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
             <div className="w-10 rounded-full">
               <img
-              alt = "Profile Photo"
+                alt="Profile Photo"
                 src={
                   session
                     ? session.user.image
-                    : "https://img.favpng.com/20/11/12/computer-icons-user-profile-png-favpng-0UAKKCpRRsMj5NaiELzw1pV7L.jpg"
+                    : <CgProfile />
                 }
               />
             </div>
@@ -46,14 +48,17 @@ export default function LoginButton() {
   return (
     <>
       <div className="dropdown-end dropdown">
-        <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
-          <div className="w-10 rounded-full">
-            <button className="w-10 rounded-full" onClick={() => signIn()}>
-              <img src="https://img.favpng.com/20/11/12/computer-icons-user-profile-png-favpng-0UAKKCpRRsMj5NaiELzw1pV7L.jpg" />
-            </button>
-          </div>
+        <label tabIndex={0} className="mx-8 btn-ghost btn-circle avatar btn">
+          <button className="rounded-full" onClick={() => signIn()}>
+            <IconContext.Provider value={{color: "#5E6697", size: "3.5em", className: "drop-shadow-md"}}>
+              <div>
+                <CgProfile/>
+              </div>
+            </IconContext.Provider>
+          </button>
         </label>
       </div>
+
     </>
   );
 }
