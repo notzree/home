@@ -11,17 +11,17 @@ export default async function handler(req, res) {
               email: body.email
             },
           })
-        console.log(body.data.listingName);
+       
           var data = {
             // owner: body.data.owner,
             owner: userId.id,
             listingLocationCoords: "Empty for now",
-            listingCategory: "Rabbit",
-           listingName:body.data.listingName,
-           listingSex: body.data.listingSex,
-           listingAge: body.data.listingAge,
-           listingPrice: body.data.listingPrice,
-           listingDescription: body.data.listingDescription
+            listingCategory:body.data.listingCategory,
+            listingName:body.data.listingName,
+            listingSex: body.data.listingSex,
+            listingAge: body.data.listingAge,
+            listingPrice: body.data.listingPrice,
+            listingDescription: body.data.listingDescription
           }
         const createdListing = await client.listings.create({data:data})
 

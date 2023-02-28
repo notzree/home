@@ -5,7 +5,7 @@ import { IconContext } from "react-icons";
 
 export default function LoginButton() {
   const { data: session } = useSession();
-
+    console.log(session?.user.image);
   if (session) {
     return (
       <>

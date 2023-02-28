@@ -1,11 +1,12 @@
 import React from 'react'
 import { getProviders, signIn, getSession } from "next-auth/react";
+import Link from 'next/link';
 
 const signin = ({ providers }) => {
     return (
         <div className='bg-secondary w-screen h-screen'>
             <div className='flex items-center justify-center flex-col w-screen h-screen'>
-                <a href="/"><img className="m-3" src="/logo_circle.svg"></img></a>
+                <Link href="/"><img className="m-3" src="/logo_circle.svg"></img></Link>
                 {Object.values(providers).map((provider) => {
                     return (
                         <div key={provider.name}>
